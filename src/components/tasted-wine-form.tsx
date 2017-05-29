@@ -27,7 +27,7 @@ const EMPTY_RECORD = { name: '', cost: NaN, rating: NaN, note: '' };
 class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface> {
     constructor(props: TWPropsInterface) {
         super(props);
-        let wine: WineInterface = EMPTY_RECORD;
+        let wine: WineInterface = Object.assign({}, EMPTY_RECORD);
         this.state = { wine };
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,7 +37,7 @@ class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface>
         return Object.keys(inputObject).some(key => !inputObject[key]);
     }
     resetForm() {
-        this.setState({ wine: EMPTY_RECORD });
+        this.setState({ wine: Object.assign({}, EMPTY_RECORD) });
     }
 
     handleChange(event: React.ChangeEvent<HTMLInputElement>) {
