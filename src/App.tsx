@@ -47,13 +47,16 @@ class App extends React.Component<APropsInterface, AStateInterface> {
   }
 
   render() {
-    let TastedWineList = this.state.wineList.map((wine, i) => <TastedWine key={i} wine={wine} />);
+    let TastedWineList = this.state.wineList.map(
+      (wine, i) => <div key={i} className="col-md-4"> <TastedWine wine={wine} /></div>
+    );
     return (
-      <div className="App" >
-        <div className="tasted-form">
+      <div className="App container-fluid" >
+        Tasted: Track different types of wine that you drink!
+        <div className="tasted-form well">
           <TastedWineForm saveRecord={this.saveRecord} />
         </div>
-        <div className="App-intro">
+        <div className="App-intro row">
           {TastedWineList}
         </div>
       </div>

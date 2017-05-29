@@ -7,6 +7,9 @@ import * as React from 'react';
 export interface WineInterface {
     name: string; cost: number; rating: number; note: string;
 }
+export interface CustomObject  { // any key-value pair
+    [key: string]: string | number; 
+}
 
 // Defines the interface of the properties of the TastedWineForm component
 export interface TWPropsInterface {
@@ -18,7 +21,7 @@ export interface TWStateInterface {
     wine: WineInterface;
 }
 
-const EMPTY_RECORD = { name: '', cost: 0, rating: 0, note: '' };
+const EMPTY_RECORD = { name: '', cost: NaN, rating: NaN, note: '' };
 
 // tasted/src/components/tasted-wine-form.tsx
 class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface> {
@@ -29,6 +32,9 @@ class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface>
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    isEmpty(inputObject: WineInterface | CustomObject): boolean {
+        return Object.keys(inputObject).some(key => !inputObject[key]);
     }
     resetForm() {
         this.setState({ wine: EMPTY_RECORD });
@@ -45,17 +51,19 @@ class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface>
 
     handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (this.isEmpty(this.state.wine)) { return; }
         this.props.saveRecord(this.state.wine);
         this.resetForm();
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className="form-inline">
                 <div className="form-group label-floating">
-                    <label htmlFor="i1" className="control-label">Name</label>
+                    {/*<label htmlFor="i1" className="control-label">Name</label>*/}
                     <input
-                        id="i1"
+                        className="form-control"
+                        placeholder="Name"
                         name="name"
                         type="text"
                         value={this.state.wine.name}
@@ -63,9 +71,10 @@ class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface>
                     />
                 </div>
                 <div className="form-group label-floating">
-                    <label htmlFor="i2" className="control-label">Cost</label>
+                    {/*<label htmlFor="i2" className="control-label">Cost</label>*/}
                     <input
-                        id="i2"
+                        className="form-control"
+                        placeholder="Cost"
                         name="cost"
                         type="number"
                         value={this.state.wine.cost}
@@ -74,30 +83,30 @@ class TastedWineForm extends React.Component<TWPropsInterface, TWStateInterface>
                 </div>
 
                 <div className="form-group label-floating">
-                    <label htmlFor="i3" className="control-label">Rating</label>
+                    {/*<label htmlFor="i3" className="control-label">Rating</label>*/}
                     <input
-                        id="i3"
+                        className="form-control"
+                        placeholder="Rating"
                         name="rating"
                         type="number"
-                        className="form-control"
                         value={this.state.wine.rating}
                         onChange={this.handleChange}
                     />
                 </div>
 
                 <div className="form-group label-floating">
-                    <label htmlFor="i4" className="control-label">Note</label>
+                    {/*<label htmlFor="i4" className="control-label">Note</label>*/}
                     <input
-                        id="i4"
+                        className="form-control"
+                        placeholder="Note"
                         name="note"
                         type="text"
-                        className="form-control"
                         value={this.state.wine.note}
                         onChange={this.handleChange}
                     />
                 </div>
 
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" className="btn btn-default" />
             </form>
         );
     }
